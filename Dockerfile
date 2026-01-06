@@ -14,11 +14,12 @@ COPY requirements.txt .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy app code and model artifacts
+# Copy app code
 COPY app.py .
 COPY inference.py .
-COPY models/distilbert_sentiment.onnx ./models/distilbert_sentiment.onnx
-COPY models/final_distilbert_model ./models/final_distilbert_model
+
+# Create models directory (will be populated at runtime)
+RUN mkdir -p /app/models
 
 # Expose port
 EXPOSE 8000

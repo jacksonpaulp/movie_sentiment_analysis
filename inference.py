@@ -1,13 +1,27 @@
 import numpy as np
 import onnxruntime as ort
 from transformers import AutoTokenizer
+from huggingface_hub import hf_hub_download
+import os
 
-# Load tokenizer
-tokenizer = AutoTokenizer.from_pretrained("models/final_distilbert_model")
+# Hugging Face model repo
+HF_REPO = "jcksnpaul/movie-sentiment-analysis"
+MODELS_DIR = "models"
+os.makedirs(MODELS_DIR, exist_ok=True)
+
+# Download tokenizer from Hugging Face
+tokenizer = AutoTokenizer.from_pretrained(HF_REPO)
+
+# Download ONNX model from Hugging Face
+onnx_path = hf_hub_download(
+    repo_id=HF_REPO,
+    filename="models/distilbert_sentiment.onnx",
+    local_dir=MODELS_DIR
+)
 
 # Load ONNX model
 session = ort.InferenceSession(
-    "models/distilbert_sentiment.onnx",
+    onnx_path,
     providers=["CPUExecutionProvider"]
 )
 
