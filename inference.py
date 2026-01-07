@@ -10,7 +10,7 @@ MODELS_DIR = "models"
 os.makedirs(MODELS_DIR, exist_ok=True)
 
 # Download tokenizer from Hugging Face
-tokenizer = AutoTokenizer.from_pretrained(HF_REPO)
+tokenizer = AutoTokenizer.from_pretrained(HF_REPO, subfolder="models/final_distilbert_model", trust_remote_code=True, force_download=True)
 
 # Download ONNX model from Hugging Face
 onnx_path = hf_hub_download(
